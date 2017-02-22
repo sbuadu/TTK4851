@@ -81,7 +81,7 @@ void loop() {
 
 
 //works fine
-void goForward(int timelaps) {
+void goForward() {
   digitalWrite(directionLeft, HIGH);
   digitalWrite(breakLeft, LOW);
   analogWrite(speedMotorA, 60);
@@ -90,46 +90,36 @@ void goForward(int timelaps) {
   digitalWrite(breakRight, LOW);
   analogWrite(speedMotorB, 70);
 
-  delay(timelaps);
+  delay(200); 
 }
 
 //works fine
-void stopMotors(int timelaps) {
-  Serial.println("-1");
+void stopMotors() {
   digitalWrite(breakLeft, HIGH);
   digitalWrite(breakRight, HIGH);
-
-  delay(timelaps);
+ 
 }
 
 //works fine
-//timelaps 800 ~90 degree turn
-void turnRight(int timelaps) {
-
+void turnRight() {
   digitalWrite(breakLeft, HIGH);
-
   digitalWrite(directionRight, HIGH);
   digitalWrite(breakRight, LOW);
   analogWrite(speedMotorA, 70);
-
-    delay(timelaps);
+  delay(500);
    
 }
 
 //works fine
-//timelaps 800 ~90 degree turn
-void turnLeft(int timelaps) {
-
-   digitalWrite(breakRight, HIGH);
-
+void turnLeft() {
+  digitalWrite(breakRight, HIGH);
   digitalWrite(directionLeft, LOW);
   digitalWrite(breakLeft, LOW);
   analogWrite(speedMotorB, 70);
 
-    delay(timelaps);
+    delay(500);
    
 }
-
 
 //must wait for the new wheel before this can be tested. 
 void reverse(int timelaps) {

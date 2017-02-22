@@ -1,10 +1,5 @@
-/* defining pins for the distance sensors
-  Pin1 - top sensor
-  Pin2 - bottom sensor
-*/
 int echoPin1 = 10;
 int triggerPin1 = 7;
-
 int echoPin2 = 5;
 int triggerPin2 = 4;
 
@@ -20,15 +15,17 @@ int speedMotorB = 11;
 
 //defining min/max range
 int maximumRange1 = 1000; // Maximum range needed
-int minimumRange1 = 20; // Minimum range needed
+int minimumRange1 = 15; // Minimum range needed
 
 int maximumRange2 = 10; // Maximum range needed
 int minimumRange2 = 0; // Minimum range needed
 
 long duration1, duration2, distance1, distance2; // Duration is used to calculate distance
 
+bool first = true; 
+
 void setup() {
-  Serial.begin (9600);
+    Serial.begin (9600);
   
   //Setup Ultrasonic Sensor upper
   pinMode(echoPin1, INPUT); //Initiates Echo Pin 1
@@ -48,10 +45,11 @@ void setup() {
 
 }
 
-void loop() {
 
-  /* The following trigPin/echoPin 1 cycle is used to determine the
-    distance of the nearest object by bouncing soundwaves off of it. */
+
+//testing sensor response
+void loop(){
+
   digitalWrite(triggerPin1, LOW);
   delayMicroseconds(2);
 
@@ -61,8 +59,8 @@ void loop() {
   digitalWrite(triggerPin1, LOW);
   duration1 = pulseIn(echoPin1, HIGH);
 
-  /* The following trigPin/echoPin 2 cycle is used to determine the
-    distance of the nearest object by bouncing soundwaves off of it. */
+  //The following trigPin/echoPin 2 cycle is used to determine the
+    // distance of the nearest object by bouncing soundwaves off of it. 
   digitalWrite(triggerPin2, LOW);
   delayMicroseconds(2);
 
@@ -72,16 +70,40 @@ void loop() {
   digitalWrite(triggerPin2, LOW);
   duration2 = pulseIn(echoPin2, HIGH);
 
-  //Calculate the distance (in cm) based on the speed of sound.
+  //Calculate the distance (in cm) based on the speed of sound. 
   distance1 = duration1 / 58.2;
   distance2 = duration2 / 58.2;
+  
+  if(safePassage(distance1, distance2)){
+    goForward(); 
+  }else{
+    stopMotors(); 
+
+    maneuver(distance1, distance2); 
+  }
+  
+Serial.print("Upper sensor: "); 
+Serial.println(distance1); 
 
 }
 
+bool safePassage(int distance1, int distance2) {
+  if (distance1 >= minimumRange1 && distance1 <= maximumRange1 ) {
+
+    return true;
+  } else {
+    return false;
+  }
+}
+
+void maneuver(int distance1, int distance2){
+  if(distance1<=minimumRange1){
+   turnRight(); 
+  }
+}
 
 
-//works fine
-void goForward(int timelaps) {
+void goForward() {
   digitalWrite(directionLeft, HIGH);
   digitalWrite(breakLeft, LOW);
   analogWrite(speedMotorA, 60);
@@ -90,21 +112,16 @@ void goForward(int timelaps) {
   digitalWrite(breakRight, LOW);
   analogWrite(speedMotorB, 70);
 
-  delay(timelaps);
+  delay(200); 
 }
 
-//works fine
-void stopMotors(int timelaps) {
-  Serial.println("-1");
+void stopMotors() {
   digitalWrite(breakLeft, HIGH);
   digitalWrite(breakRight, HIGH);
-
-  delay(timelaps);
+ 
 }
 
-//works fine
-//timelaps 800 ~90 degree turn
-void turnRight(int timelaps) {
+void turnRight() {
 
   digitalWrite(breakLeft, HIGH);
 
@@ -112,35 +129,18 @@ void turnRight(int timelaps) {
   digitalWrite(breakRight, LOW);
   analogWrite(speedMotorA, 70);
 
-    delay(timelaps);
+    delay(800);
    
 }
 
-//works fine
-//timelaps 800 ~90 degree turn
-void turnLeft(int timelaps) {
-
-   digitalWrite(breakRight, HIGH);
-
+void turnLeft() {
+  digitalWrite(breakRight, HIGH);
   digitalWrite(directionLeft, LOW);
   digitalWrite(breakLeft, LOW);
   analogWrite(speedMotorB, 70);
 
-    delay(timelaps);
+    delay(800);
    
 }
 
-
-//must wait for the new wheel before this can be tested. 
-void reverse(int timelaps) {
-  digitalWrite(directionLeft, LOW);
-  digitalWrite(breakLeft, LOW);
-  analogWrite(speedMotorA, 60);
-
-  digitalWrite(directionRight, HIGH);
-  digitalWrite(breakRight, LOW);
-  analogWrite(speedMotorA, 60);
-
-  delay(timelaps);
-}
 
