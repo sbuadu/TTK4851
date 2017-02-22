@@ -4,6 +4,7 @@
 */
 int echoPin1 = 10;
 int triggerPin1 = 7;
+
 int echoPin2 = 5;
 int triggerPin2 = 4;
 
@@ -75,17 +76,6 @@ void loop() {
   distance1 = duration1 / 58.2;
   distance2 = duration2 / 58.2;
 
-
-  //checking for obstacles and the edge of the table
-  //this is actually the operation of the vehicle. Must add more cases for unsafe passage 
-  if (safePassage(distance1, distance2)) {
-    Serial.println(distance1);
-    Serial.println(distance2);
-    turnRight(2000);
-  }  else {
-    stopMotors(2000);
-    reverse(2000);
-   }
 }
 
 
