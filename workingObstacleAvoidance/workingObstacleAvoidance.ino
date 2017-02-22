@@ -25,7 +25,7 @@ long duration1, duration2, distance1, distance2; // Duration is used to calculat
 bool first = true; 
 
 void setup() {
-  Serial.begin (9600);
+    Serial.begin (9600);
   
   //Setup Ultrasonic Sensor upper
   pinMode(echoPin1, INPUT); //Initiates Echo Pin 1
@@ -44,6 +44,7 @@ void setup() {
   pinMode(breakRight, OUTPUT);  //Initiates Brake Channel B pin
 
 }
+
 
 
 //testing sensor response
@@ -72,49 +73,31 @@ void loop(){
   //Calculate the distance (in cm) based on the speed of sound. 
   distance1 = duration1 / 58.2;
   distance2 = duration2 / 58.2;
-  Serial.print("upper sensor: "); 
-  Serial.println(distance1);
-  Serial.print("lower sensor: "); 
-  Serial.println(distance2); 
   
-  if(safePassage()){
+  if(safePassage(distance1, distance2)){
     goForward(); 
   }else{
     stopMotors(); 
 
-    maneuver(); 
+    maneuver(distance1, distance2); 
   }
- }
+  
+Serial.print("Upper sensor: "); 
+Serial.println(distance1); 
 
-bool safePassage() {
-  if (distance1 >= minimumRange1 && distance1 <= maximumRange1 && distance2 >= minimumRange2 && distance2 <= maximumRange2) {
+}
+
+bool safePassage(int distance1, int distance2) {
+  if (distance1 >= minimumRange1 && distance1 <= maximumRange1 ) {
+
     return true;
   } else {
     return false;
   }
 }
 
-bool obstacleInFront(){
+void maneuver(int distance1, int distance2){
   if(distance1<=minimumRange1){
-    return true;
-  }else{
-    return false; 
-  }
-}
-
-bool obstacleDown(){
-    if (distance2 > maximumRange2 || distance2 < minimumRange2){
-      return true; 
-    }else{
-      return false; 
-    }
-}
-
-void maneuver(){
-  if (obstacleDown){
-    reverse(); 
-    turnLeft(); 
-  }  else if(obstacleInFront()){ 
    turnRight(); 
   }
 }
@@ -141,10 +124,12 @@ void stopMotors() {
 void turnRight() {
 
   digitalWrite(breakLeft, HIGH);
+
   digitalWrite(directionRight, HIGH);
   digitalWrite(breakRight, LOW);
   analogWrite(speedMotorA, 70);
-  delay(800);
+
+    delay(800);
    
 }
 
@@ -157,18 +142,4 @@ void turnLeft() {
     delay(800);
    
 }
-
-
-void reverse() {
-  digitalWrite(directionLeft, LOW);
-  digitalWrite(breakLeft, LOW);
-  analogWrite(speedMotorA, 60);
-
-  digitalWrite(directionRight, HIGH);
-  digitalWrite(breakRight, LOW);
-  analogWrite(speedMotorA, 60);
-
-  delay(500);
-}
-
 
