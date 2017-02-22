@@ -1,5 +1,3 @@
-
-
 /* defining pins for the distance sensors
   Pin1 - top sensor
   Pin2 - bottom sensor
@@ -26,13 +24,16 @@ int minimumRange1 = 20; // Minimum range needed
 int maximumRange2 = 10; // Maximum range needed
 int minimumRange2 = 0; // Minimum range needed
 
-long duration1, duration2, distance1, distance2; // Duration used to calculate distance
+long duration1, duration2, distance1, distance2; // Duration is used to calculate distance
 
 void setup() {
   Serial.begin (9600);
+  
   //Setup Ultrasonic Sensor upper
   pinMode(echoPin1, INPUT); //Initiates Echo Pin 1
   pinMode(triggerPin1, OUTPUT); //Initiates Trigger Pin 1
+  
+  //Setup Ultrasonic Sensor lower
   pinMode(echoPin2, INPUT); //Initiates Echo Pin 2
   pinMode(triggerPin2, OUTPUT); //Initiates Trigger Pin 2
 
@@ -76,6 +77,7 @@ void loop() {
 
 
   //checking for obstacles og the edge of the table
+  //this is actually the operation of the vehicle. Must add more sentences 
   if (safePassage(distance1, distance2)) {
     Serial.println(distance1);
     Serial.println(distance2);
@@ -84,8 +86,6 @@ void loop() {
     stopMotors(2000);
     reverse(2000);
    }
-
-
 }
 
 
