@@ -76,12 +76,12 @@ void loop() {
   distance2 = duration2 / 58.2;
 
 
-  //checking for obstacles og the edge of the table
-  //this is actually the operation of the vehicle. Must add more sentences 
+  //checking for obstacles and the edge of the table
+  //this is actually the operation of the vehicle. Must add more cases for unsafe passage 
   if (safePassage(distance1, distance2)) {
     Serial.println(distance1);
     Serial.println(distance2);
-    goForward(2000);
+    turnRight(2000);
   }  else {
     stopMotors(2000);
     reverse(2000);
@@ -98,7 +98,8 @@ bool safePassage(int distance1, int distance2) {
   }
 }
 
-//works when the wheels do as they are supposed to
+
+//works fine
 void goForward(int timelaps) {
   digitalWrite(directionLeft, HIGH);
   digitalWrite(breakLeft, LOW);
@@ -111,22 +112,45 @@ void goForward(int timelaps) {
   delay(timelaps);
 }
 
-//not tested
-void turnRight(int timelaps) {
-
-  digitalWrite(directionLeft, HIGH);
-  digitalWrite(breakLeft, LOW);
-  analogWrite(speedMotorA, 50);
-
-
-  digitalWrite(directionRight, HIGH);
-  digitalWrite(breakRight, LOW);
-  analogWrite(speedMotorA, 90);
+//works fine
+void stopMotors(int timelaps) {
+  Serial.println("-1");
+  digitalWrite(breakLeft, HIGH);
+  digitalWrite(breakRight, HIGH);
 
   delay(timelaps);
 }
 
-//having trouble with the back wheel.. 
+//works fine
+//timelaps 800 ~90 degree turn
+void turnRight(int timelaps) {
+
+  digitalWrite(breakLeft, HIGH);
+
+  digitalWrite(directionRight, HIGH);
+  digitalWrite(breakRight, LOW);
+  analogWrite(speedMotorA, 70);
+
+    delay(timelaps);
+   
+}
+
+//works fine
+//timelaps 800 ~90 degree turn
+void turnLeft(int timelaps) {
+
+   digitalWrite(breakRight, HIGH);
+
+  digitalWrite(directionLeft, LOW);
+  digitalWrite(breakLeft, LOW);
+  analogWrite(speedMotorB, 70);
+
+    delay(timelaps);
+   
+}
+
+
+//must wait for the new wheel before this can be tested. 
 void reverse(int timelaps) {
   digitalWrite(directionLeft, LOW);
   digitalWrite(breakLeft, LOW);
@@ -135,15 +159,6 @@ void reverse(int timelaps) {
   digitalWrite(directionRight, HIGH);
   digitalWrite(breakRight, LOW);
   analogWrite(speedMotorA, 60);
-
-  delay(timelaps);
-}
-
-//works fine
-void stopMotors(int timelaps) {
-  Serial.println("-1");
-  digitalWrite(breakLeft, HIGH);
-  digitalWrite(breakRight, HIGH);
 
   delay(timelaps);
 }
