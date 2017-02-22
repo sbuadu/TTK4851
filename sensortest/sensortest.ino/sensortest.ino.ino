@@ -87,7 +87,7 @@ void loop(){
  }
 
 bool safePassage() {
-  if (distance1 >= minimumRange1 && distance1 <= maximumRange1 && distance2 >= minimumRange2 && distance2 <= maximumRange2) {
+  if (distance1 >= minimumRange1 && distance1 <= maximumRange1 && distance2 >= minimumRange2 && distance2 <= maximumRgange2) {
     return true;
   } else {
     return false;
