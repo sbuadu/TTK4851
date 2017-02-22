@@ -20,7 +20,7 @@ int speedMotorB = 11;
 
 //defining min/max range
 int maximumRange1 = 1000; // Maximum range needed
-int minimumRange1 = 20; // Minimum range needed
+int minimumRange1 = 15; // Minimum range needed
 
 int maximumRange2 = 10; // Maximum range needed
 int minimumRange2 = 0; // Minimum range needed
@@ -76,7 +76,14 @@ void loop() {
   distance1 = duration1 / 58.2;
   distance2 = duration2 / 58.2;
 
-}
+
+  if(safePassage(distance1, distance2)){
+    goForward(); 
+  }else{
+    stopMotors(); 
+    maneuver(distance1, distance2); 
+  }
+ }
 
 
 

@@ -81,23 +81,39 @@ void loop(){
 
     maneuver(distance1, distance2); 
   }
-  
-Serial.print("Upper sensor: "); 
-Serial.println(distance1); 
-
-}
+ }
 
 bool safePassage(int distance1, int distance2) {
-  if (distance1 >= minimumRange1 && distance1 <= maximumRange1 ) {
-
+  if (distance1 >= minimumRange1 && distance1 <= maximumRange1 && distance2 >= minimumRange2 && distance2 <= maximumRange2) {
     return true;
   } else {
     return false;
   }
 }
 
-void maneuver(int distance1, int distance2){
+bool obstacleInFront(int distance1){
   if(distance1<=minimumRange1){
+    return true;
+  }else{
+    return false; 
+  }
+}
+
+bool obstacleDown(){
+    if (distance2 > maximumRange2 || distance2 < minimumRange2){
+      return true; 
+    }else{
+      return false; 
+    }
+}
+
+void maneuver(int distance1, int distance2){
+  if (obstacleDown){
+    reverse(); 
+    turnRight(); 
+  }
+  //meets obstacle
+  else if(obstacleInFront()){ 
    turnRight(); 
   }
 }
@@ -124,12 +140,10 @@ void stopMotors() {
 void turnRight() {
 
   digitalWrite(breakLeft, HIGH);
-
   digitalWrite(directionRight, HIGH);
   digitalWrite(breakRight, LOW);
   analogWrite(speedMotorA, 70);
-
-    delay(800);
+  delay(800);
    
 }
 
@@ -141,6 +155,20 @@ void turnLeft() {
 
     delay(800);
    
+}
+
+
+
+void reverse() {
+  digitalWrite(directionLeft, LOW);
+  digitalWrite(breakLeft, LOW);
+  analogWrite(speedMotorA, 60);
+
+  digitalWrite(directionRight, HIGH);
+  digitalWrite(breakRight, LOW);
+  analogWrite(speedMotorA, 60);
+
+  delay(500);
 }
 
 
