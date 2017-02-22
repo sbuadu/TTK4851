@@ -74,16 +74,16 @@ void loop(){
   distance1 = duration1 / 58.2;
   distance2 = duration2 / 58.2;
   
-  if(safePassage(distance1, distance2)){
+  if(safePassage()){
     goForward(); 
   }else{
     stopMotors(); 
 
-    maneuver(distance1, distance2); 
+    maneuver(); 
   }
  }
 
-bool safePassage(int distance1, int distance2) {
+bool safePassage() {
   if (distance1 >= minimumRange1 && distance1 <= maximumRange1 && distance2 >= minimumRange2 && distance2 <= maximumRange2) {
     return true;
   } else {
@@ -91,7 +91,7 @@ bool safePassage(int distance1, int distance2) {
   }
 }
 
-bool obstacleInFront(int distance1){
+bool obstacleInFront(){
   if(distance1<=minimumRange1){
     return true;
   }else{
@@ -107,13 +107,11 @@ bool obstacleDown(){
     }
 }
 
-void maneuver(int distance1, int distance2){
+void maneuver(){
   if (obstacleDown){
     reverse(); 
-    turnRight(); 
-  }
-  //meets obstacle
-  else if(obstacleInFront()){ 
+    turnLeft(); 
+  }  else if(obstacleInFront()){ 
    turnRight(); 
   }
 }
@@ -156,7 +154,6 @@ void turnLeft() {
     delay(800);
    
 }
-
 
 
 void reverse() {
