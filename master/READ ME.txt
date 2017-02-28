@@ -1,8 +1,0 @@
-Master.ino
-
-
-All code added to the master should be working code and implementations of the final functionality. 
-
-All testing off code should be tested in some other file before it's added to master.ino and re-tested. 
-
-

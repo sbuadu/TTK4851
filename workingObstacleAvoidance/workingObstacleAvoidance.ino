@@ -1,3 +1,5 @@
+//this file should always be working.. Test in another file and add the functionality here 
+
 int echoPin1 = 10;
 int triggerPin1 = 7;
 int echoPin2 = 5;
@@ -14,7 +16,7 @@ int speedMotorB = 11;
 
 
 //defining min/max range
-int maximumRange1 = 1000; // Maximum range needed
+int maximumRange1 = 10000; // Maximum range needed
 int minimumRange1 = 15; // Minimum range needed
 
 int maximumRange2 = 10; // Maximum range needed
@@ -22,7 +24,7 @@ int minimumRange2 = 0; // Minimum range needed
 
 long duration1, duration2, distance1, distance2; // Duration is used to calculate distance
 
-bool first = true; 
+
 
 void setup() {
     Serial.begin (9600);
@@ -47,7 +49,9 @@ void setup() {
 
 
 
-//testing sensor response
+/* 
+this works fine when upper sensor does as it should.. 
+TO DO - implement functionality for lower sensor and reverse */
 void loop(){
 
   digitalWrite(triggerPin1, LOW);
@@ -59,8 +63,6 @@ void loop(){
   digitalWrite(triggerPin1, LOW);
   duration1 = pulseIn(echoPin1, HIGH);
 
-  //The following trigPin/echoPin 2 cycle is used to determine the
-    // distance of the nearest object by bouncing soundwaves off of it. 
   digitalWrite(triggerPin2, LOW);
   delayMicroseconds(2);
 
@@ -82,8 +84,6 @@ void loop(){
     maneuver(distance1, distance2); 
   }
   
-Serial.print("Upper sensor: "); 
-Serial.println(distance1); 
 
 }
 
@@ -129,17 +129,16 @@ void turnRight() {
   digitalWrite(breakRight, LOW);
   analogWrite(speedMotorA, 70);
 
-    delay(800);
+    delay(500);
    
 }
-
 void turnLeft() {
   digitalWrite(breakRight, HIGH);
   digitalWrite(directionLeft, LOW);
   digitalWrite(breakLeft, LOW);
   analogWrite(speedMotorB, 70);
 
-    delay(800);
+    delay(500);
    
 }
 

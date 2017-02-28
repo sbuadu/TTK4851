@@ -20,7 +20,7 @@ int speedMotorB = 11;
 
 //defining min/max range
 int maximumRange1 = 1000; // Maximum range needed
-int minimumRange1 = 15; // Minimum range needed
+int minimumRange1 = 20; // Minimum range needed
 
 int maximumRange2 = 10; // Maximum range needed
 int minimumRange2 = 0; // Minimum range needed
@@ -77,18 +77,19 @@ void loop() {
   distance2 = duration2 / 58.2;
 
 
-  if(safePassage(distance1, distance2)){
-    goForward(); 
-  }else{
-    stopMotors(); 
-    maneuver(distance1, distance2); 
-  }
- }
+goForward(600); 
+stopMotors(300); 
+turnRight(700);
+stopMotors(300);  
+goForward(600); 
+stopMotors(300); 
+turnLeft(700); 
+}
 
 
 
 //works fine
-void goForward() {
+void goForward(int timelaps) {
   digitalWrite(directionLeft, HIGH);
   digitalWrite(breakLeft, LOW);
   analogWrite(speedMotorA, 60);
@@ -97,36 +98,46 @@ void goForward() {
   digitalWrite(breakRight, LOW);
   analogWrite(speedMotorB, 70);
 
-  delay(200); 
+  delay(timelaps);
 }
 
 //works fine
-void stopMotors() {
+void stopMotors(int timelaps) {
+  Serial.println("-1");
   digitalWrite(breakLeft, HIGH);
   digitalWrite(breakRight, HIGH);
- 
+
+  delay(timelaps);
 }
 
 //works fine
-void turnRight() {
+//timelaps 800 ~90 degree turn
+void turnRight(int timelaps) {
+
   digitalWrite(breakLeft, HIGH);
+
   digitalWrite(directionRight, HIGH);
   digitalWrite(breakRight, LOW);
   analogWrite(speedMotorA, 70);
-  delay(500);
+
+    delay(timelaps);
    
 }
 
 //works fine
-void turnLeft() {
-  digitalWrite(breakRight, HIGH);
+//timelaps 800 ~90 degree turn
+void turnLeft(int timelaps) {
+
+   digitalWrite(breakRight, HIGH);
+
   digitalWrite(directionLeft, LOW);
   digitalWrite(breakLeft, LOW);
   analogWrite(speedMotorB, 70);
 
-    delay(500);
+    delay(timelaps);
    
 }
+
 
 //must wait for the new wheel before this can be tested. 
 void reverse(int timelaps) {

@@ -14,7 +14,7 @@ int speedMotorB = 11;
 
 
 //defining min/max range
-int maximumRange1 = 1000; // Maximum range needed
+int maximumRange1 = 10000; // Maximum range needed
 int minimumRange1 = 15; // Minimum range needed
 
 int maximumRange2 = 10; // Maximum range needed
@@ -72,44 +72,60 @@ void loop(){
   //Calculate the distance (in cm) based on the speed of sound. 
   distance1 = duration1 / 58.2;
   distance2 = duration2 / 58.2;
-  Serial.print("upper sensor: "); 
+  
+ /* Serial.print("upper sensor: "); 
   Serial.println(distance1);
   Serial.print("lower sensor: "); 
   Serial.println(distance2); 
+  Serial.print("Safe passage: "); 
+  Serial.println(safePassage()); 
   
+  Serial.println(" "); 
+  Serial.println(" "); 
+  delay(1000); 
+*/
+
+//insert in main when tested
   if(safePassage()){
     goForward(); 
   }else{
     stopMotors(); 
-
     maneuver(); 
   }
+  
+
  }
 
+//insert into main
 bool safePassage() {
-  if (distance1 >= minimumRange1 && distance1 <= maximumRange1 && distance2 >= minimumRange2 && distance2 <= maximumRgange2) {
+  if (distance1 >= minimumRange1 && distance1 <= maximumRange1 && distance2 >= minimumRange2 && distance2 <= maximumRange2) {
     return true;
   } else {
     return false;
   }
 }
 
+//insert into main
 bool obstacleInFront(){
   if(distance1<=minimumRange1){
     return true;
   }else{
     return false; 
   }
+  return true; 
 }
 
+//insert into main
 bool obstacleDown(){
-    if (distance2 > maximumRange2 || distance2 < minimumRange2){
+   if (distance2 >= maximumRange2 ){
       return true; 
     }else{
       return false; 
     }
 }
 
+//test when sensors work 100 % should be fine
+//insert into main
 void maneuver(){
   if (obstacleDown){
     reverse(); 
@@ -144,7 +160,8 @@ void turnRight() {
   digitalWrite(directionRight, HIGH);
   digitalWrite(breakRight, LOW);
   analogWrite(speedMotorA, 70);
-  delay(800);
+ 
+  delay(500);
    
 }
 
@@ -154,11 +171,12 @@ void turnLeft() {
   digitalWrite(breakLeft, LOW);
   analogWrite(speedMotorB, 70);
 
-    delay(800);
+    delay(500);
    
 }
 
 
+//insert into main
 void reverse() {
   digitalWrite(directionLeft, LOW);
   digitalWrite(breakLeft, LOW);
