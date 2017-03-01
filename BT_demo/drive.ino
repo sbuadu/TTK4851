@@ -30,18 +30,15 @@ if( Serial.available() >0){       // if data is available to read
     state = '0';
     Serial.println(state);
     }
-  else if(state >= '4' && state <= '7'){
-    temp = state*20;
-    goForward(temp);
+  else if(state == '5'){
+    goForward();
       if(flag == 0){
           Serial.println("Motor: forward");
           Serial.println(state);
           flag=1;
         }
-    state = '0';
-    Serial.println(state);
       }
-    else if(state >= '8' && state <= '9'){
+    else if(state >= '6' && state <= '9'){
     temp = state*17;
     reverse(temp);
       if(flag == 0){
