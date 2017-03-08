@@ -120,22 +120,28 @@ void stopMotors() {
 }
 
 void turnRight(int timelaps) {
-  digitalWrite(breakLeft, HIGH);
+  digitalWrite(directionLeft, HIGH);
+  digitalWrite(breakLeft, LOW);
+  analogWrite(speedMotorB, 100);
+
   digitalWrite(directionRight, HIGH);
   digitalWrite(breakRight, LOW);
   analogWrite(speedMotorA, 100);
-  delay(timelaps);  
+
+  delay(timelaps);
+   
 }
 
 void turnLeft(int timelaps) {
-
-   digitalWrite(breakRight, HIGH);
+  digitalWrite(directionRight, LOW);
+  digitalWrite(breakRight, LOW);
+  analogWrite(speedMotorA, 100);
 
   digitalWrite(directionLeft, LOW);
   digitalWrite(breakLeft, LOW);
   analogWrite(speedMotorB, 100);
 
-    delay(timelaps);
+  delay(timelaps);
    
 }
 

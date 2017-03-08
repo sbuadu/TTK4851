@@ -50,40 +50,12 @@ void setup() {
 
 void loop() {
 
-  /* The following trigPin/echoPin 1 cycle is used to determine the
-    distance of the nearest object by bouncing soundwaves off of it. */
-  digitalWrite(triggerPin1, LOW);
-  delayMicroseconds(2);
 
-  digitalWrite(triggerPin1, HIGH);
-  delayMicroseconds(10);
+  turnRight(830);
+  stopMotors(800);
+  turnLeft(810);
+  stopMotors(3000);
 
-  digitalWrite(triggerPin1, LOW);
-  duration1 = pulseIn(echoPin1, HIGH);
-
-  /* The following trigPin/echoPin 2 cycle is used to determine the
-    distance of the nearest object by bouncing soundwaves off of it. */
-  digitalWrite(triggerPin2, LOW);
-  delayMicroseconds(2);
-
-  digitalWrite(triggerPin2, HIGH);
-  delayMicroseconds(10);
-
-  digitalWrite(triggerPin2, LOW);
-  duration2 = pulseIn(echoPin2, HIGH);
-
-  //Calculate the distance (in cm) based on the speed of sound.
-  distance1 = duration1 / 58.2;
-  distance2 = duration2 / 58.2;
-
-
-goForward(600); 
-stopMotors(300); 
-turnRight(700);
-stopMotors(300);  
-goForward(600); 
-stopMotors(300); 
-turnLeft(700); 
 }
 
 
@@ -92,11 +64,11 @@ turnLeft(700);
 void goForward(int timelaps) {
   digitalWrite(directionLeft, HIGH);
   digitalWrite(breakLeft, LOW);
-  analogWrite(speedMotorA, 60);
+  analogWrite(speedMotorA, 100);
 
   digitalWrite(directionRight, LOW);
   digitalWrite(breakRight, LOW);
-  analogWrite(speedMotorB, 70);
+  analogWrite(speedMotorB, 100);
 
   delay(timelaps);
 }
@@ -113,12 +85,13 @@ void stopMotors(int timelaps) {
 //works fine
 //timelaps 800 ~90 degree turn
 void turnRight(int timelaps) {
-
-  digitalWrite(breakLeft, HIGH);
+  digitalWrite(directionLeft, HIGH);
+  digitalWrite(breakLeft, LOW);
+  analogWrite(speedMotorB, 100);
 
   digitalWrite(directionRight, HIGH);
   digitalWrite(breakRight, LOW);
-  analogWrite(speedMotorA, 70);
+  analogWrite(speedMotorA, 100);
 
     delay(timelaps);
    
@@ -127,12 +100,13 @@ void turnRight(int timelaps) {
 //works fine
 //timelaps 800 ~90 degree turn
 void turnLeft(int timelaps) {
-
-   digitalWrite(breakRight, HIGH);
+    digitalWrite(directionRight, LOW);
+   digitalWrite(breakRight, LOW);
+   analogWrite(speedMotorA, 100);
 
   digitalWrite(directionLeft, LOW);
   digitalWrite(breakLeft, LOW);
-  analogWrite(speedMotorB, 70);
+  analogWrite(speedMotorB, 100);
 
     delay(timelaps);
    
