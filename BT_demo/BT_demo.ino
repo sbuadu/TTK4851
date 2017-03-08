@@ -1,6 +1,31 @@
+//start definitions for sounds
+
+#include <SoftwareSerial.h>
+#define ARDUINO_RX 2//should connect to TX of the Serial MP3 Player module
+#define ARDUINO_TX 6//connect to RX of the module
+SoftwareSerial myMP3(ARDUINO_RX, ARDUINO_TX);
+
+/*5 bytes commands*/
+#define CMD_SEL_DEV 0X35
+#define DEV_TF 0X01
+
+/*6 bytes commands*/  
+#define CMD_PLAY_W_INDEX   0X41
+#define CMD_PLAY_FILE_NAME 0X42
+#define CMD_INJECT_W_INDEX 0X43
+
+/*Special commands*/
+#define CMD_SET_VOLUME 0X31
+#define CMD_PLAY_W_VOL 0X31
+
+#define CMD_SET_PLAY_MODE 0X33
+
+void sendCommand(int8_t command, int16_t dat );
+
+//end definitions for sounds
 
  // variable to receive data from the serial port
- int echoPin1 = 10;
+int echoPin1 = 10;
 int triggerPin1 = 7;
 int echoPin2 = 5;
 int triggerPin2 = 4;
@@ -38,6 +63,16 @@ void setup() {
   pinMode(directionRight, OUTPUT); //Initiates Motor Channel B pin
   pinMode(breakRight, OUTPUT);  //Initiates Brake Channel B pin
   Serial.begin(9600);       // start serial communication at 9600bps
+
+  //For startup sound
+  myMP3.begin(9600);
+  
+  delay(500);//Wait chip initialization is complete
+  sendCommand(CMD_SEL_DEV, DEV_TF);//select the TF card  
+  delay(200);//wait for 200ms
+  
+  setVolume(0X19); 
+  playFile(0X0005);
 }
 
 void loop() {
