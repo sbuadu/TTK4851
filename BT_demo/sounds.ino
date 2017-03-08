@@ -41,6 +41,16 @@ void playTableEdge()
     //The question is whether we should use one play function with a paramater or not.
 }
 
+void playImLost() 
+{
+    //Play correct file
+}
+
+void playRandomPhrase()
+{
+    //Play correct file
+}
+
 void playFile(int16_t dat) //SKREVER AT EIRIK
 {
   unsigned long currentPlay = millis();
