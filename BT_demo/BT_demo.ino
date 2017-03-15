@@ -73,66 +73,25 @@ void setup() {
   
   setVolume(0X19); 
   playFile(0X0005);
+  
 }
 
-void loop() {
+
+void loop(){
   stopMotors();
-  /* The following trigPin/echoPin 1 cycle is used to determine the
-    distance of the nearest object by bouncing soundwaves off of it. */
-  digitalWrite(triggerPin1, LOW);
-  delayMicroseconds(2);
-
-  digitalWrite(triggerPin1, HIGH);
-  delayMicroseconds(10);
-
-  digitalWrite(triggerPin1, LOW);
-  duration1 = pulseIn(echoPin1, HIGH);
-
-  /* The following trigPin/echoPin 2 cycle is used to determine the
-    distance of the nearest object by bouncing soundwaves off of it. */
-  digitalWrite(triggerPin2, LOW);
-  delayMicroseconds(2);
-
-  digitalWrite(triggerPin2, HIGH);
-  delayMicroseconds(10);
-
-  digitalWrite(triggerPin2, LOW);
-  duration2 = pulseIn(echoPin2, HIGH);
-
-  //Calculate the distance (in cm) based on the speed of sound.
-  distance1 = duration1 / 58.2;
-  distance2 = duration2 / 58.2;
   
-while (distance1 >= minimumRange1 && distance2 <= maximumRange2){
-
-   /* The following trigPin/echoPin 1 cycle is used to determine the
-    distance of the nearest object by bouncing soundwaves off of it. */
-  digitalWrite(triggerPin1, LOW);
-  delayMicroseconds(2);
-
-  digitalWrite(triggerPin1, HIGH);
-  delayMicroseconds(10);
-
-  digitalWrite(triggerPin1, LOW);
-  duration1 = pulseIn(echoPin1, HIGH);
-
-  /* The following trigPin/echoPin 2 cycle is used to determine the
-    distance of the nearest object by bouncing soundwaves off of it. */
-  digitalWrite(triggerPin2, LOW);
-  delayMicroseconds(2);
-
-  digitalWrite(triggerPin2, HIGH);
-  delayMicroseconds(10);
-
-  digitalWrite(triggerPin2, LOW);
-  duration2 = pulseIn(echoPin2, HIGH);
-
-  //Calculate the distance (in cm) based on the speed of sound.
-  distance1 = duration1 / 58.2;
-  distance2 = duration2 / 58.2;
+  distance1 = checkObstacle1();
+  distance2 = checkObstacle2();
   
-  drive();
+  if (distance1 <= minimumRange1 || distance2 >= maximumRange2){  
+    handleObstacle(distance1, distance2, minimumRange1, maximumRange2 );
+  }
 
+  while (distance1 >= minimumRange1 && distance2 <= maximumRange2){ 
+    distance1 = checkObstacle1();
+    distance2 = checkObstacle2();
+  
+    drive();
   }    
 } 
 
@@ -155,28 +114,22 @@ void stopMotors() {
 }
 
 void turnRight(int timelaps) {
-  digitalWrite(directionLeft, HIGH);
-  digitalWrite(breakLeft, LOW);
-  analogWrite(speedMotorB, 100);
-
+  digitalWrite(breakLeft, HIGH);
   digitalWrite(directionRight, HIGH);
   digitalWrite(breakRight, LOW);
   analogWrite(speedMotorA, 100);
-
-  delay(timelaps);
-   
+  delay(timelaps);  
 }
 
 void turnLeft(int timelaps) {
-  digitalWrite(directionRight, LOW);
-  digitalWrite(breakRight, LOW);
-  analogWrite(speedMotorA, 100);
+
+   digitalWrite(breakRight, HIGH);
 
   digitalWrite(directionLeft, LOW);
   digitalWrite(breakLeft, LOW);
   analogWrite(speedMotorB, 100);
 
-  delay(timelaps);
+    delay(timelaps);
    
 }
 

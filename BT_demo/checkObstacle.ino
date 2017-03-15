@@ -1,4 +1,4 @@
-int checkObstacle(){
+int checkObstacle1(){
    /* The following trigPin/echoPin 1 cycle is used to determine the
     distance of the nearest object by bouncing soundwaves off of it. */
   digitalWrite(triggerPin1, LOW);
@@ -9,7 +9,12 @@ int checkObstacle(){
 
   digitalWrite(triggerPin1, LOW);
   duration1 = pulseIn(echoPin1, HIGH);
+  //Calculate the distance (in cm) based on the speed of sound.
+  distance1 = duration1 / 58.2;
+return distance1;
+}
 
+int checkObstacle2(){
   /* The following trigPin/echoPin 2 cycle is used to determine the
     distance of the nearest object by bouncing soundwaves off of it. */
   digitalWrite(triggerPin2, LOW);
@@ -22,7 +27,7 @@ int checkObstacle(){
   duration2 = pulseIn(echoPin2, HIGH);
 
   //Calculate the distance (in cm) based on the speed of sound.
-  distance1 = duration1 / 58.2;
   distance2 = duration2 / 58.2;
-return distance1,distance2;
+  
+return distance2;
 }
