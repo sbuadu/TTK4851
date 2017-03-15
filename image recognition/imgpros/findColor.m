@@ -2,7 +2,7 @@ function findColor(image)
 
 resizeIm = 0.1;
 
-image = ('double1.jpg');
+%image = ('double1.jpg');
 image = imread(image);
 image = imresize(image,resizeIm);
 [m,n] = size(image);
