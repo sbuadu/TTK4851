@@ -71,13 +71,14 @@ void setup() {
   sendCommand(CMD_SEL_DEV, DEV_TF);//select the TF card  
   delay(200);//wait for 200ms
   
-  setVolume(0X19); 
-  playFile(0X0005);
+   mp3_5bytes(0X31, 0X10);
+  mp3_6bytes(0X42, 0X0301);
   
 }
 
 
 void loop(){
+
   stopMotors();
   
   distance1 = checkObstacle1();
@@ -93,7 +94,7 @@ void loop(){
   
     drive();
   }    
-} 
+}
 
 
 void reverse(int timelaps) {
