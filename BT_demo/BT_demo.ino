@@ -71,9 +71,9 @@ void setup() {
   sendCommand(CMD_SEL_DEV, DEV_TF);//select the TF card  
   delay(200);//wait for 200ms
   
-   mp3_5bytes(0X31, 0X10);
-  mp3_6bytes(0X42, 0X0301);
-  
+  mp3_5bytes(0X31, 0X10);
+//  mp3_6bytes(0X42, 0X0301);
+    playStart();
 }
 
 
