@@ -15,12 +15,13 @@
  * random phrase
  * 
 */
-int amountStart = 1;
-int amountComing = 1;
-int amountObstacle = 1;
-int amountTableEdge = 1;
-int amountImLost = 1;
+int amountStart = 2;
+int amountComing = 2;
+int amountObstacle = 2;
+int amountTableEdge = 2;
+int amountImLost = 2;
 int amountRandomPhrase = 1;
+int amountDelivery = 2;
 
 static int8_t Send_buf[6] = {0} ;
 
@@ -92,6 +93,14 @@ void playRandomPhrase()
     if(checkIfPlay())
     {
         playFile(0X06 + getRandom(amountRandomPhrase));
+    }
+}
+
+void playDelivery() 
+{
+    if(checkIfPlay())
+    {
+        playFile(0X07 + getRandom(amountDelivery));
     }
 }
 
