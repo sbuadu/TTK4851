@@ -14,52 +14,109 @@
  * im lost
  * random phrase
  * 
- */
+*/
+int amountStart = 2;
+int amountComing = 2;
+int amountObstacle = 2;
+int amountTableEdge = 2;
+int amountImLost = 2;
+int amountRandomPhrase = 1;
+int amountDelivery = 2;
+
 static int8_t Send_buf[6] = {0} ;
 
 const long interval = 5000;
 unsigned long prevPlay = 0;
 
+//https://www.arduino.cc/en/Reference/Random
+//https://www.arduino.cc/en/Reference/RandomSeed
+//
+
+int16_t getRandom(int amount)
+{
+    randomSeed(analogRead(0));
+    //float randomNumber;
+    //randomNumber = random(1,amount);
+    
+    return byte(random(1,amount));
+}
+
+void playStart()
+{
+    if(checkIfPlay())
+    {
+         playFile(0X00 + getRandom(amountStart));   
+    }
+}
 void playCommandRecieved()
 {
-    playFile(0X0001);
+    if(checkIfPlay())
+    {
+     playFile(0X01 + getRandom(amountComing));   
+    }
 }
 
 void playFreePassage()
 {
-  playFile(0X0001);
+    if(checkIfPlay())
+    {
+       playFile(0X02 + getRandom(amountComing));   
+    }
 }
 
 void playObstacleInFront()
 {
-  playFile(0X0002);
+    if(checkIfPlay())
+    {
+        playFile(0X03 + getRandom(amountObstacle));
+    }
 }
 
 void playTableEdge()
 {
-    //Play correct file.
-    //The question is whether we should use one play function with a paramater or not.
+    if(checkIfPlay())
+    {
+        playFile(0X04 + getRandom(amountTableEdge));
+    }
 }
 
 void playImLost() 
 {
-    //Play correct file
+    if(checkIfPlay())
+    {
+        playFile(0X05 + getRandom(amountImLost));
+    }
 }
 
 void playRandomPhrase()
 {
-    //Play correct file
+    if(checkIfPlay())
+    {
+        playFile(0X06 + getRandom(amountRandomPhrase));
+    }
 }
 
-void playFile(int16_t dat) //SKREVER AT EIRIK
+void playDelivery() 
 {
-  unsigned long currentPlay = millis();
+    if(checkIfPlay())
+    {
+        playFile(0X07 + getRandom(amountDelivery));
+    }
+}
 
-  if (currentPlay - prevPlay >= interval || prevPlay <= 5000) 
-  {
-    prevPlay = currentPlay;
+boolean checkIfPlay()
+{
+    unsigned long currentPlay = millis();
+    
+    if (currentPlay - prevPlay >= interval || prevPlay <= 5000) 
+    {
+        prevPlay = currentPlay;
+    }
+}
+
+void playFile(int16_t dat)
+{
     mp3_6bytes(CMD_PLAY_W_INDEX, dat); 
-  }
 }
 void setVolume(int8_t vol)
 {
