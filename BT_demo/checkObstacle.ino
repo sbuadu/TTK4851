@@ -10,7 +10,7 @@ int checkObstacle1(){
   digitalWrite(triggerPin1, LOW);
   duration1 = pulseIn(echoPin1, HIGH);
   //Calculate the distance (in cm) based on the speed of sound.
-  distance1 = duration1 / 58.2;
+  distance1 = (int) duration1 / 58.2;
 return distance1;
 }
 
@@ -27,7 +27,7 @@ int checkObstacle2(){
   duration2 = pulseIn(echoPin2, HIGH);
 
   //Calculate the distance (in cm) based on the speed of sound.
-  distance2 = duration2 / 58.2;
+  distance2 = (int) duration2 / 58.2;
   
 return distance2;
 }
