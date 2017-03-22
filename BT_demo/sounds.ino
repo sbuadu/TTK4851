@@ -1,3 +1,4 @@
+
 /* Wiring Guide */
 //Serial MP3 Player A     |  Arduino UNO R3//
 //              RX              |   2
@@ -37,30 +38,24 @@ int16_t getRandom(int amount)
     randomSeed(analogRead(0));
     //float randomNumber;
     //randomNumber = random(1,amount);
-    
-    return byte(random(1,amount));
+    int16_t rnd = byte(random(1,amount+1));
+    Serial.print(rnd);
+    return rnd;
 }
 
 void playStart()
 {
+  playSound(0X01 + getRandom(amountStart));  
     if(checkIfPlay())
     {
-         playFile(0X00 + getRandom(amountStart));   
+         playSound(0X01 + getRandom(amountStart));   
     }
 }
 void playCommandRecieved()
 {
     if(checkIfPlay())
     {
-     playFile(0X01 + getRandom(amountComing));   
-    }
-}
-
-void playFreePassage()
-{
-    if(checkIfPlay())
-    {
-       playFile(0X02 + getRandom(amountComing));   
+     playSound(0X02 + getRandom(amountComing));   
     }
 }
 
@@ -68,7 +63,9 @@ void playObstacleInFront()
 {
     if(checkIfPlay())
     {
-        playFile(0X03 + getRandom(amountObstacle));
+        int16_t t = 0X03 + getRandom(amountObstacle);
+        playSound(t);
+        Serial.print(t);
     }
 }
 
@@ -76,7 +73,7 @@ void playTableEdge()
 {
     if(checkIfPlay())
     {
-        playFile(0X04 + getRandom(amountTableEdge));
+        playSound(0X04 + getRandom(amountTableEdge));
     }
 }
 
@@ -84,7 +81,7 @@ void playImLost()
 {
     if(checkIfPlay())
     {
-        playFile(0X05 + getRandom(amountImLost));
+        playSound(0X05 + getRandom(amountImLost));
     }
 }
 
@@ -92,7 +89,7 @@ void playRandomPhrase()
 {
     if(checkIfPlay())
     {
-        playFile(0X06 + getRandom(amountRandomPhrase));
+        playSound(0X06 + getRandom(amountRandomPhrase));
     }
 }
 
@@ -100,21 +97,24 @@ void playDelivery()
 {
     if(checkIfPlay())
     {
-        playFile(0X07 + getRandom(amountDelivery));
+        playSound(0X07 + getRandom(amountDelivery));
     }
 }
 
 boolean checkIfPlay()
 {
+  delay(100);
     unsigned long currentPlay = millis();
     
     if (currentPlay - prevPlay >= interval || prevPlay <= 5000) 
     {
         prevPlay = currentPlay;
+        return true;
     }
+    return false;
 }
 
-void playFile(int16_t dat)
+void playSound(int16_t dat)
 {
     mp3_6bytes(CMD_PLAY_W_INDEX, dat); 
 }
@@ -178,7 +178,7 @@ void sendBytes(uint8_t nbytes)
 {
   for(uint8_t i=0; i < nbytes; i++)//
   {
-    myMP3.write(Send_buf[i]) ;
+    myMP3.write(Send_buf[i]);
   }
 }
 

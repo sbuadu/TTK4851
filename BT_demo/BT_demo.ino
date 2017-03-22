@@ -1,8 +1,10 @@
-//start definitions for sounds
+  //start definitions for sounds
 
 #include <SoftwareSerial.h>
+//#include <Scheduler.h>
 #define ARDUINO_RX 2//should connect to TX of the Serial MP3 Player module
 #define ARDUINO_TX 6//connect to RX of the module
+
 SoftwareSerial myMP3(ARDUINO_RX, ARDUINO_TX);
 
 /*5 bytes commands*/
@@ -48,6 +50,7 @@ int minimumRange2 = 0; // Minimum range needed
 long duration1, duration2, distance1, distance2; // Duration is used to calculate distance
 
 void setup() {
+//  Scheduler.startloop(loop1);
     //Setup Ultrasonic Sensor upper
   pinMode(echoPin1, INPUT); //Initiates Echo Pin 1
   pinMode(triggerPin1, OUTPUT); //Initiates Trigger Pin 1
@@ -62,8 +65,10 @@ void setup() {
   //Setup Channel B
   pinMode(directionRight, OUTPUT); //Initiates Motor Channel B pin
   pinMode(breakRight, OUTPUT);  //Initiates Brake Channel B pin
-  Serial.begin(9600);       // start serial communication at 9600bps
 
+  //Setup Speaker
+  Serial.begin(9600);       // start serial communication at 9600bps
+  
   //For startup sound
   myMP3.begin(9600);
   
@@ -73,12 +78,11 @@ void setup() {
   
   mp3_5bytes(0X31, 0X10);
   playStart();
+  delay(3000);
 }
 
 
 void loop(){
-
-  stopMotors();
   
   distance1 = checkObstacle1();
   distance2 = checkObstacle2();
@@ -86,13 +90,7 @@ void loop(){
   if (distance1 <= minimumRange1 || distance2 >= maximumRange2){  
     handleObstacle(distance1, distance2, minimumRange1, maximumRange2 );
   }
-
-  while (distance1 >= minimumRange1 && distance2 <= maximumRange2){ 
-    distance1 = checkObstacle1();
-    distance2 = checkObstacle2();
-  
-    drive();
-  }    
+  drive();
 }
 
 
@@ -136,10 +134,10 @@ void turnLeft(int timelaps) {
 void goForward() {
   digitalWrite(directionLeft, HIGH);
   digitalWrite(breakLeft, LOW);
-  analogWrite(speedMotorA, 100);
+  analogWrite(speedMotorA, 70);
 
   digitalWrite(directionRight, LOW);
   digitalWrite(breakRight, LOW);
-  analogWrite(speedMotorB, 100);
+  analogWrite(speedMotorB, 70);
 
 }
