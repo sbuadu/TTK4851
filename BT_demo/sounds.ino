@@ -43,9 +43,21 @@ int16_t getRandom(int amount)
     return rnd;
 }
 
+boolean checkIfPlay()
+{
+  delay(100);
+    unsigned long currentPlay = millis();
+    
+    if (currentPlay - prevPlay >= interval || prevPlay <= 5000) 
+    {
+        prevPlay = currentPlay;
+        return true;
+    }
+    return false;
+}
+
 void playStart()
 {
-  playSound(0X01 + getRandom(amountStart));  
     if(checkIfPlay())
     {
          playSound(0X01 + getRandom(amountStart));   
@@ -97,19 +109,6 @@ void playDelivery()
     {
         playSound(0X07 + getRandom(amountDelivery));
     }
-}
-
-boolean checkIfPlay()
-{
-  delay(100);
-    unsigned long currentPlay = millis();
-    
-    if (currentPlay - prevPlay >= interval || prevPlay <= 5000) 
-    {
-        prevPlay = currentPlay;
-        return true;
-    }
-    return false;
 }
 
 void playSound(int16_t dat)
