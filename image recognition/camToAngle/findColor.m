@@ -1,41 +1,37 @@
 function res = findColor(img)
 % image is a 480 x 1920 matrix. image = [r g b] where r,g,b (480X640) 
 %resizeIm = 0.7;
-disp('In find color')
-%image = ('double1.jpg');
-%image = imread(image);
-C = uint8(zeros(480,640,3));
-C(:,:,1) = img(:,1:640);
-C(:,:,2) = img(:,641:1280);
-C(:,:,3) = img(:,1281:1920);
 
+% Restructure img to image format. 
+[x,y] = size(img);
+width = y/3; 
+image = uint8(zeros(x,width,3));
+image(:,:,1) = img(:,1:width);
+image(:,:,2) = img(:,width+1:width*2);
+image(:,:,3) = img(:,width*2+1:y);
+
+% Display original image 
 figure(1)
-imshow(C);
-image=C;
-%image = imresize(C,resizeIm);
+imshow(image);
+
+% Smoothing picture with a built in 2-D Gaussian smoothing kernel 
 [m,n] = size(image);
 image = imgaussfilt(image,2);
-disp('m:');
-disp(m);
-disp('n:');
-disp(n);
 
-% red = image(:,1:640);
-% %green = image(:,641:1280);
-% blue = image(:,1281:1920);
-% green = image - red; 
+%display smoothed image 
+figure(2)
+imshow(image);
 
+% Remove red from picture to enhance green. 
 red = image(:,:,1);
 blue = image(:,:,3);
-% red_temp = uint8(zeros(48,64,3));
-% blue_temp = uint8(zeros(48,64,3));
-% red_temp(:,:,1)= red;
-% red_temp(:,:,2)= red;
-% red_temp(:,:,3)= red;
-% blue_temp(:,:,1)= blue;
-% blue_temp(:,:,2)= blue;
-% blue_temp(:,:,3)= blue;
-green = image - red - blue; 
+blue1 = 0.5*blue;
+green = image - red - blue1; % - blue; 
+
+% display black and green picture
+figure(3)
+imshow(green);
+
 
 greenIntensity = rgb2gray(green);
 greenBinary = imbinarize(greenIntensity);
@@ -44,7 +40,7 @@ centroids = cat(1, s.Centroid);
 a = regionprops(greenBinary, 'area');
 area = cat(1, a.Area);
 
-figure(2)
+figure(4)
 imshow(greenBinary); 
 if (centroids ~= 0 )
     hold on
@@ -67,11 +63,10 @@ elseif size(area,1)== 3
     destination = centroids(sortIndex(1),:);
     frontPos = centroids(sortIndex(2),:);
     backPos = centroids(sortIndex(3),:);
-%else
-    %error('did not find correct number of green spots');
+else
+    disp('did not find correct number of green spots');
 end
    
     res = [frontPos(:) backPos(:) destination(:)]  ; 
-    disp(res);
 
 end
