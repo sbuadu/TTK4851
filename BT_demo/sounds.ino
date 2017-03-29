@@ -63,9 +63,7 @@ void playObstacleInFront()
 {
     if(checkIfPlay())
     {
-        int16_t t = 0X03 + getRandom(amountObstacle);
-        playSound(t);
-        Serial.print(t);
+        playSound(0X03 + getRandom(amountObstacle));
     }
 }
 
