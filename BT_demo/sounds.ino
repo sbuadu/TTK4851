@@ -39,13 +39,13 @@ int16_t getRandom(int amount)
     //float randomNumber;
     //randomNumber = random(1,amount);
     int16_t rnd = byte(random(1,amount+1));
-    Serial.print(rnd);
+    Serial.println(rnd);
     return rnd;
 }
 
 boolean checkIfPlay()
 {
-  delay(100);
+    delay(100);
     unsigned long currentPlay = millis();
     
     if (currentPlay - prevPlay >= interval || prevPlay <= 5000) 
@@ -61,15 +61,17 @@ void playStart()
     if(checkIfPlay())
     {
         int16_t t = 0x01 + getRandom(amountStart);
-        Serial.print(t);
-         playSound(0X01 + getRandom(amountStart));   
+        Serial.println(t);
+         playSound(t);   
     }
 }
 void playCommandRecieved()
 {
     if(checkIfPlay())
     {
-     playSound(0X02 + getRandom(amountComing));   
+        int16_t t = 0X02 + getRandom(amountComing);
+        Serial.println(t);
+        playSound(t);
     }
 }
 
@@ -77,7 +79,9 @@ void playObstacleInFront()
 {
     if(checkIfPlay())
     {
-        playSound(0X03 + getRandom(amountObstacle));
+        int16_t t = 0X03 + getRandom(amountObstacle);
+        Serial.println(t);
+        playSound(t);
     }
 }
 
