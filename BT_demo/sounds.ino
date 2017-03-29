@@ -60,7 +60,7 @@ void playStart()
 {
     if(checkIfPlay())
     {
-        int16_t t = 0x01 + getRandom(amountStart);
+        int16_t t = 0x0100 + getRandom(amountStart);
         Serial.println(t);
          playSound(t);   
     }
@@ -69,7 +69,7 @@ void playCommandRecieved()
 {
     if(checkIfPlay())
     {
-        int16_t t = 0X02 + getRandom(amountComing);
+        int16_t t = 0X0200 + getRandom(amountComing);
         Serial.println(t);
         playSound(t);
     }
@@ -79,7 +79,7 @@ void playObstacleInFront()
 {
     if(checkIfPlay())
     {
-        int16_t t = 0X03 + getRandom(amountObstacle);
+        int16_t t = 0X0300 + getRandom(amountObstacle);
         Serial.println(t);
         playSound(t);
     }
@@ -89,7 +89,7 @@ void playTableEdge()
 {
     if(checkIfPlay())
     {
-        playSound(0X04 + getRandom(amountTableEdge));
+        playSound(0X0400 + getRandom(amountTableEdge));
     }
 }
 
@@ -97,7 +97,7 @@ void playImLost()
 {
     if(checkIfPlay())
     {
-        playSound(0X05 + getRandom(amountImLost));
+        playSound(0X0500 + getRandom(amountImLost));
     }
 }
 
@@ -105,7 +105,7 @@ void playRandomPhrase()
 {
     if(checkIfPlay())
     {
-        playSound(0X06 + getRandom(amountRandomPhrase));
+        playSound(0X0600 + getRandom(amountRandomPhrase));
     }
 }
 
@@ -113,7 +113,7 @@ void playDelivery()
 {
     if(checkIfPlay())
     {
-        playSound(0X07 + getRandom(amountDelivery));
+        playSound(0X0700 + getRandom(amountDelivery));
     }
 }
 
