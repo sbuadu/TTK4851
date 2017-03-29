@@ -1,4 +1,4 @@
-  //start definitions for sounds
+//start definitions for sounds
 
 #include <SoftwareSerial.h>
 //#include <Scheduler.h>
@@ -11,7 +11,7 @@ SoftwareSerial myMP3(ARDUINO_RX, ARDUINO_TX);
 #define CMD_SEL_DEV 0X35
 #define DEV_TF 0X01
 
-/*6 bytes commands*/  
+/*6 bytes commands*/
 #define CMD_PLAY_W_INDEX   0X41
 #define CMD_PLAY_FILE_NAME 0X42
 #define CMD_INJECT_W_INDEX 0X43
@@ -26,7 +26,7 @@ void sendCommand(int8_t command, int16_t dat );
 
 //end definitions for sounds
 
- // variable to receive data from the serial port
+// variable to receive data from the serial port
 int echoPin1 = 10;
 int triggerPin1 = 7;
 int echoPin2 = 5;
@@ -37,9 +37,9 @@ int speedMotorA = 3;
 int directionRight = 13;
 int breakRight = 8;
 int speedMotorB = 11;
-int state=0;
-int flag =0; 
-int temp=0;
+int state = 0;
+int flag = 0;
+int temp = 0;
 
 int maximumRange1 = 1000; // Maximum range needed
 int minimumRange1 = 20; // Minimum range needed
@@ -50,11 +50,11 @@ int minimumRange2 = 0; // Minimum range needed
 long duration1, duration2, distance1, distance2; // Duration is used to calculate distance
 
 void setup() {
-//  Scheduler.startloop(loop1);
-    //Setup Ultrasonic Sensor upper
+  //  Scheduler.startloop(loop1);
+  //Setup Ultrasonic Sensor upper
   pinMode(echoPin1, INPUT); //Initiates Echo Pin 1
   pinMode(triggerPin1, OUTPUT); //Initiates Trigger Pin 1
-  
+
   //Setup Ultrasonic Sensor lower
   pinMode(echoPin2, INPUT); //Initiates Echo Pin 2
   pinMode(triggerPin2, OUTPUT); //Initiates Trigger Pin 2
@@ -68,26 +68,26 @@ void setup() {
 
   //Setup Speaker
   Serial.begin(9600);       // start serial communication at 9600bps
-  
+
   //For startup sound
   myMP3.begin(9600);
-  
+
   delay(500);//Wait chip initialization is complete
-  sendCommand(CMD_SEL_DEV, DEV_TF);//select the TF card  
+  sendCommand(CMD_SEL_DEV, DEV_TF);//select the TF card
   delay(200);//wait for 200ms
-  
+
   mp3_5bytes(0X31, 0X10);
   playStart();
   delay(3000);
 }
 
 
-void loop(){
-  
+void loop() {
+
   distance1 = checkObstacle1();
   distance2 = checkObstacle2();
-  
-  if (distance1 <= minimumRange1 || distance2 >= maximumRange2){  
+
+  if (distance1 <= minimumRange1 || distance2 >= maximumRange2) {
     handleObstacle(distance1, distance2, minimumRange1, maximumRange2 );
   }
   drive();
@@ -116,19 +116,19 @@ void turnRight(int timelaps) {
   digitalWrite(directionRight, HIGH);
   digitalWrite(breakRight, LOW);
   analogWrite(speedMotorA, 100);
-  delay(timelaps);  
+  delay(timelaps);
 }
 
 void turnLeft(int timelaps) {
 
-   digitalWrite(breakRight, HIGH);
+  digitalWrite(breakRight, HIGH);
 
   digitalWrite(directionLeft, LOW);
   digitalWrite(breakLeft, LOW);
   analogWrite(speedMotorB, 100);
 
-    delay(timelaps);
-   
+  delay(timelaps);
+
 }
 
 void goForward() {
