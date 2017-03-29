@@ -42,7 +42,7 @@ int flag = 0;
 int temp = 0;
 
 int maximumRange1 = 1000; // Maximum range needed
-int minimumRange1 = 20; // Minimum range needed
+int minimumRange1 = 10; // Minimum range needed
 
 int maximumRange2 = 20; // Maximum range needed
 int minimumRange2 = 0; // Minimum range needed
@@ -78,6 +78,10 @@ void setup() {
 
   mp3_5bytes(0X31, 0X10);
   playStart();
+  delay(3000);
+  playTableEdge();
+  delay(3000);
+  playRandomPhrase();
   delay(3000);
 }
 
