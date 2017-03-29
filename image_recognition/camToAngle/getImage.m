@@ -1,7 +1,7 @@
 function [ B ] = getImage()
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
-
+% Comment
 % Take picture and store in variable img.  
 cam = webcam('Logitech-kamera');
 img = snapshot(cam);

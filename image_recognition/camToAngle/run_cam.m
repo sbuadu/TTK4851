@@ -1,3 +1,4 @@
+% comment
 clear all;
 clear all hidden; 
 close all;

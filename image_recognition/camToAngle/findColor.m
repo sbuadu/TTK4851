@@ -2,6 +2,10 @@ function res = findColor(img)
 % image is a 480 x 1920 matrix. image = [r g b] where r,g,b (480X640) 
 %resizeIm = 0.7;
 
+<<<<<<< HEAD:image recognition/camToAngle/findColor.m
+=======
+% Comment
+>>>>>>> f30666782cfcd7d19b0b48944bfd34f21a561edc:image_recognition/camToAngle/findColor.m
 % Restructure img to image format. 
 [x,y] = size(img);
 width = y/3; 
