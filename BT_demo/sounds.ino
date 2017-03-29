@@ -79,13 +79,9 @@ void playObstacleInFront()
 {
     if(checkIfPlay())
     {
-<<<<<<< Updated upstream
         int16_t t = 0X03 + getRandom(amountObstacle);
         Serial.println(t);
         playSound(t);
-=======
-        playSound(0X04 + getRandom(amountObstacle));
->>>>>>> Stashed changes
     }
 }
 
@@ -93,7 +89,7 @@ void playTableEdge()
 {
     if(checkIfPlay())
     {
-        playSound(0X03 + getRandom(amountTableEdge));
+        playSound(0X04 + getRandom(amountTableEdge));
     }
 }
 
@@ -123,7 +119,9 @@ void playDelivery()
 
 void playSound(int16_t dat)
 {
-    mp3_6bytes(CMD_PLAY_W_INDEX, dat); 
+    //int16_t playThis = 0X420000 + dat;
+    //mp3_6bytes(CMD_PLAY_W_INDEX, dat); 
+    mp3_6bytes(0x42, dat);
 }
 void setVolume(int8_t vol)
 {
