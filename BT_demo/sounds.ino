@@ -79,9 +79,13 @@ void playObstacleInFront()
 {
     if(checkIfPlay())
     {
+<<<<<<< Updated upstream
         int16_t t = 0X03 + getRandom(amountObstacle);
         Serial.println(t);
         playSound(t);
+=======
+        playSound(0X04 + getRandom(amountObstacle));
+>>>>>>> Stashed changes
     }
 }
 
@@ -89,7 +93,7 @@ void playTableEdge()
 {
     if(checkIfPlay())
     {
-        playSound(0X04 + getRandom(amountTableEdge));
+        playSound(0X03 + getRandom(amountTableEdge));
     }
 }
 
