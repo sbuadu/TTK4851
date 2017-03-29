@@ -75,13 +75,8 @@ void setup() {
   delay(500);//Wait chip initialization is complete
   sendCommand(CMD_SEL_DEV, DEV_TF);//select the TF card
   delay(200);//wait for 200ms
-
   mp3_5bytes(0X31, 0X10);
   playStart();
-  delay(3000);
-  playTableEdge();
-  delay(3000);
-  playRandomPhrase();
   delay(3000);
 }
 

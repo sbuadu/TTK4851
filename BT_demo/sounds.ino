@@ -1,8 +1,8 @@
 
 /* Wiring Guide */
 //Serial MP3 Player A     |  Arduino UNO R3//
-//              RX              |   2
-//              TX              |   6
+//              RX              |   6
+//              TX              |   2
 //              VCC            |   5V
 //              GND            |   GND
 
@@ -36,11 +36,8 @@ unsigned long prevPlay = 0;
 int16_t getRandom(int amount)
 {
     randomSeed(analogRead(0));
-    //float randomNumber;
-    //randomNumber = random(1,amount);
-    int16_t rnd = byte(random(1,amount+1));
-    Serial.println(rnd);
-    return rnd;
+    
+    return byte(random(1,amount+1));
 }
 
 boolean checkIfPlay()
@@ -60,18 +57,14 @@ void playStart()
 {
     if(checkIfPlay())
     {
-        int16_t t = 0x0100 + getRandom(amountStart);
-        Serial.println(t);
-         playSound(t);   
+        playFolderFile(0x0100 + getRandom(amountStart));
     }
 }
 void playCommandRecieved()
 {
     if(checkIfPlay())
     {
-        int16_t t = 0X0200 + getRandom(amountComing);
-        Serial.println(t);
-        playSound(t);
+        playFolderFile(0x0200 + getRandom(amountComing));
     }
 }
 
@@ -79,9 +72,7 @@ void playObstacleInFront()
 {
     if(checkIfPlay())
     {
-        int16_t t = 0X0300 + getRandom(amountObstacle);
-        Serial.println(t);
-        playSound(t);
+        playFolderFile(0x0300 + getRandom(amountObstacle));
     }
 }
 
@@ -89,7 +80,7 @@ void playTableEdge()
 {
     if(checkIfPlay())
     {
-        playSound(0X0400 + getRandom(amountTableEdge));
+        playFolderFile(0X0400 + getRandom(amountTableEdge));
     }
 }
 
@@ -97,7 +88,7 @@ void playImLost()
 {
     if(checkIfPlay())
     {
-        playSound(0X0500 + getRandom(amountImLost));
+        playFolderFile(0X0500 + getRandom(amountImLost));
     }
 }
 
@@ -105,7 +96,7 @@ void playRandomPhrase()
 {
     if(checkIfPlay())
     {
-        playSound(0X0600 + getRandom(amountRandomPhrase));
+        playFolderFile(0X0600 + getRandom(amountRandomPhrase));
     }
 }
 
@@ -113,15 +104,14 @@ void playDelivery()
 {
     if(checkIfPlay())
     {
-        playSound(0X0700 + getRandom(amountDelivery));
+        playFolderFile(0X0700 + getRandom(amountDelivery));
     }
 }
 
 void playSound(int16_t dat)
 {
-    //int16_t playThis = 0X420000 + dat;
-    //mp3_6bytes(CMD_PLAY_W_INDEX, dat); 
-    mp3_6bytes(0x42, dat);
+    mp3_6bytes(CMD_PLAY_W_INDEX, dat); 
+
 }
 void setVolume(int8_t vol)
 {
