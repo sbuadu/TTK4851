@@ -60,6 +60,8 @@ void playStart()
 {
     if(checkIfPlay())
     {
+        int16_t t = 0x01 + getRandom(amountStart);
+        Serial.print(t);
          playSound(0X01 + getRandom(amountStart));   
     }
 }
