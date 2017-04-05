@@ -9,10 +9,12 @@ void drive(){
       turnRight(time); 
       goForward()
       
+    }else if (angle == 47){
+      stopMotors()
     }else{
-     //left turn 
-    time = 6.520934182*10^(-3)*angle^2 + 53.90658398*angle^(1/2) - 124.6841231; 
-    turnLeft(time); 
-    goForward()
+      //left turn 
+      time = 6.520934182*10^(-3)*angle^2 + 53.90658398*angle^(1/2) - 124.6841231; 
+      turnLeft(time); 
+      goForward()
   }
 }
