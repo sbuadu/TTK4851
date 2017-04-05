@@ -1,52 +1,16 @@
 void drive(){
-if( Serial.available() >0){       // if data is available to read
-    state = Serial.read();          // read it and store it in 'state'
-    flag = 0; 
+  int time = 0; 
+  if( Serial.available() >0){       // if data is available to read
+    angle = Serial.read();          // read it and store it in 'state'
+
+    if (angle <= 180){
+      //right turn 
+      time = 5.109266313*10^(-3)*angle^2 + 63.03130035*angle^(1/2) - 182.2983324; 
+      turnRight(time); 
+      
+    }else{
+     //left turn 
+    time = 6.520934182*10^(-3)*angle^2 + 53.90658398*angle^(1/2) - 124.6841231; 
+    turnLeft(time); 
   }
-  
-  if( state == '0' ){               // State 0 turns motor off
-    stopMotors();
-    if( flag == 0){
-      Serial.println("Motor:off");
-      flag = 1;
-      } 
-    } 
-  else if(state >= '1' && state <= '2') {         //State 1 will turn right for 
-    temp = state*25;  
-    turnRight(temp);                        
-    if(flag == 0){
-          Serial.println("Motor: right");
-          flag=1;
-        }
-    state = '0';
-    }
-  else if(state >= '3' && state <= '4'){         //State 2 will turn left
-   temp = state*20;
-   turnLeft(temp);
-    if(flag == 0){
-          Serial.println("Motor: left");
-          flag=1;
-        }
-    state = '0';
-    Serial.println(state);
-    }
-    else if(state >= '6' && state <= '9'){
-    temp = state*17;
-    reverse(temp);
-      if(flag == 0){
-          Serial.println("Motor: Reverse");
-          Serial.println(state);
-          flag=1;
-        }
-    state = '0';
-    Serial.println(state);
-      }
-      else{
-    goForward();
-      if(flag == 0){
-          Serial.println("Motor: forward");
-          Serial.println(state);
-          flag=1;
-        }
-      }
 }
