@@ -1,7 +1,6 @@
 //start definitions for sounds
 
 #include <SoftwareSerial.h>
-//#include <Scheduler.h>
 #define ARDUINO_RX 2//should connect to TX of the Serial MP3 Player module
 #define ARDUINO_TX 6//connect to RX of the module
 
